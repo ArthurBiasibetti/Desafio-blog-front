@@ -1,7 +1,8 @@
 export interface IUser {
-  createdAt: Date;
-  first_name: string;
-  last_name: string;
+  created_at: Date;
+  updated_at: Date;
+  name: string;
   email: string;
+  role: 'ADMIN' | 'USER';
   id: string;
 }

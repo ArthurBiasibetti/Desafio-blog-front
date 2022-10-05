@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ToggleMenuProvider } from './contexts/ToggleMenuContext';
+import { AuthProvider } from './contexts/AuthContext';
 import Routes from './routes';
 
 const App: React.FunctionComponent = () => (
   <Router>
-    <ToggleMenuProvider>
+    <AuthProvider>
       <Routes />
-    </ToggleMenuProvider>
+    </AuthProvider>
   </Router>
 );
 
