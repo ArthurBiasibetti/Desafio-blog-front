@@ -1,0 +1,50 @@
+.post_header {
+  padding: 0.5rem 1rem;
+  .post_title {
+    width: 100%;
+    margin: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+.post_content {
+  padding: 0.5rem 1rem;
+  flex: 1;
+  .post_description {
+    text-align: left;
+
+    color: #dfdfdf;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+}
+
+.post_footer {
+  padding: 0.5rem 1rem;
+  .post_author {
+    margin-right: 1rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .post_category {
+    padding: 0.125rem 0.5rem;
+    background-color: #7f19fc;
+    border-radius: 4px;
+  }
+
+  .post_category:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

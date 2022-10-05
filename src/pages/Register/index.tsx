@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { GiConcentrationOrb } from 'react-icons/gi';
+
 import { useAuth } from '../../contexts/AuthContext';
 import { registerSchema } from './registerSchema';
 import toastMsg, { ToastType } from '../../utils/toastMsg';
 import UsersService from '../../services/user.service';
 import './styles.scss';
+import Logo from '../../components/Logo';
+import Header from '../../components/Header';
 
 const Home: React.FunctionComponent = () => {
   const { isAuthenticated } = useAuth();
@@ -57,76 +59,76 @@ const Home: React.FunctionComponent = () => {
   };
 
   return (
-    <Box sx={{ height: '100%', display: 'flex' }}>
-      <Box
-        sx={{
-          height: 500,
-          width: 400,
-          backgroundColor: '#390B70',
-          margin: 'auto',
-          borderRadius: '1rem',
-          padding: '1rem',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div className="icon_wrapper">
-          <GiConcentrationOrb color="#7F19FC" size={36} />
-          <span className="icon_title">Purplose</span>
-        </div>
-        <div className="register_form">
-          <label htmlFor="name">
-            <span className="label">Nome de usuário</span>
-            <input
-              id="name"
-              type="text"
-              max={120}
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Digite seu Nome"
-            />
-          </label>
-          <label htmlFor="email">
-            <span className="label">E-mail</span>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="Digite seu e-mail"
-            />
-          </label>
-          <label htmlFor="senha">
-            <span className="label">Senha</span>
-            <input
-              id="senha"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Digite sua senha"
-            />
-          </label>
-          <label htmlFor="resenha">
-            <span className="label">Confirmar a senha</span>
-            <input
-              id="resenha"
-              type="password"
-              value={rePassword}
-              onChange={(event) => setRePassword(event.target.value)}
-              placeholder="Digite sua senha novamente"
-            />
-          </label>
-        </div>
-        <button
-          disabled={isLoading || isDisableSubmitBtn}
-          className="submit_btn"
-          type="button"
-          onClick={handleRegister}
+    <>
+      <Header />
+      <Box sx={{ height: '100%', display: 'flex' }}>
+        <Box
+          sx={{
+            height: 500,
+            width: 400,
+            backgroundColor: '#390B70',
+            margin: 'auto',
+            borderRadius: '1rem',
+            padding: '1rem',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
         >
-          Registrar-me
-        </button>
+          <Logo />
+          <div className="register_form">
+            <label htmlFor="name">
+              <span className="label">Nome de usuário</span>
+              <input
+                id="name"
+                type="text"
+                max={120}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Digite seu Nome"
+              />
+            </label>
+            <label htmlFor="email">
+              <span className="label">E-mail</span>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Digite seu e-mail"
+              />
+            </label>
+            <label htmlFor="senha">
+              <span className="label">Senha</span>
+              <input
+                id="senha"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Digite sua senha"
+              />
+            </label>
+            <label htmlFor="resenha">
+              <span className="label">Confirmar a senha</span>
+              <input
+                id="resenha"
+                type="password"
+                value={rePassword}
+                onChange={(event) => setRePassword(event.target.value)}
+                placeholder="Digite sua senha novamente"
+              />
+            </label>
+          </div>
+          <button
+            disabled={isLoading || isDisableSubmitBtn}
+            className="submit_btn"
+            type="button"
+            onClick={handleRegister}
+          >
+            Registrar-me
+          </button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

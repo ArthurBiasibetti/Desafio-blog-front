@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-import { GiConcentrationOrb } from 'react-icons/gi';
-
 import { useAuth } from '../../contexts/AuthContext';
 import toastMsg, { ToastType } from '../../utils/toastMsg';
-import './styles.scss';
 import { loginSchema } from './loginSchema';
+import Logo from '../../components/Logo';
+import Header from '../../components/Header';
+import './styles.scss';
+import Loader from '../../components/Loader';
 
 const Home: React.FunctionComponent = () => {
   const { login, isAuthenticated } = useAuth();
@@ -35,7 +35,7 @@ const Home: React.FunctionComponent = () => {
       .catch((error) => {
         const apiError = error?.response?.data;
 
-        if (apiError?.message === 'User not found!') {
+        if (['User not found!', 'wrong password!'].includes(apiError?.message)) {
           toastMsg(ToastType.Error, 'Usuário ou senha incorretos!');
         } else {
           toastMsg(ToastType.Error, error.message);
@@ -45,51 +45,57 @@ const Home: React.FunctionComponent = () => {
   };
 
   return (
-    <Box sx={{ height: '100%', display: 'flex' }}>
-      <Box
-        sx={{
-          height: 350,
-          width: 550,
-          backgroundColor: '#390B70',
-          margin: 'auto',
-          borderRadius: '1rem',
-          padding: '1rem',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div className="icon_wrapper">
-          <GiConcentrationOrb color="#7F19FC" size={36} />
-          <span className="icon_title">Purplose</span>
-        </div>
-        <div className="login_form">
-          <label htmlFor="email">
-            <span className="label">E-mail</span>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="Digite seu e-mail"
-            />
-          </label>
+    <>
+      <Header />
+      {isLoading && <Loader />}
+      <Box sx={{ height: '100%', display: 'flex' }}>
+        <Box
+          sx={{
+            height: 350,
+            width: 550,
+            backgroundColor: '#390B70',
+            margin: 'auto',
+            borderRadius: '1rem',
+            padding: '1rem',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <Logo />
+          <div className="login_form">
+            <label htmlFor="email">
+              <span className="label">E-mail</span>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Digite seu e-mail"
+              />
+            </label>
 
-          <label htmlFor="senha">
-            <span className="label">Senha</span>
-            <input
-              id="senha"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Digite sua senha"
-            />
-          </label>
-        </div>
-        <button disabled={isLoading || !email || !password} className="submit_btn" type="button" onClick={handleLogin}>
-          Entrar
-        </button>
+            <label htmlFor="senha">
+              <span className="label">Senha</span>
+              <input
+                id="senha"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Digite sua senha"
+              />
+            </label>
+          </div>
+          <button
+            disabled={isLoading || !email || !password}
+            className="submit_btn"
+            type="button"
+            onClick={handleLogin}
+          >
+            Entrar
+          </button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

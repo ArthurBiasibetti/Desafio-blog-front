@@ -1,8 +1,8 @@
+import { IPost } from './Ipost';
+
 export interface IUser {
-  created_at: Date;
-  updated_at: Date;
   name: string;
-  email: string;
+  posts: IPost[];
   role: 'ADMIN' | 'USER';
   id: string;
 }

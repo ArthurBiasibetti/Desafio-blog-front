@@ -20,6 +20,10 @@ export const Routes = (): React.ReactElement | null => {
     },
     {
       path: '/',
+      element: <Home />,
+    },
+    {
+      path: '/myPosts',
       element: (
         <PrivateRoute>
           <Home />
