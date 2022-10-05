@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import { GiConcentrationOrb } from 'react-icons/gi';
-
 import { useAuth } from '../../contexts/AuthContext';
+import { registerSchema } from './registerSchema';
 import toastMsg, { ToastType } from '../../utils/toastMsg';
+import UsersService from '../../services/user.service';
 import './styles.scss';
-import { loginSchema } from './loginSchema';
 
 const Home: React.FunctionComponent = () => {
-  const { login, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const isDisableSubmitBtn = !name || !email || !password || !rePassword;
 
   const navigate = useNavigate();
 
@@ -24,19 +27,28 @@ const Home: React.FunctionComponent = () => {
     }
   }, [navigate, isAuthenticated]);
 
-  const handleLogin = (): void => {
+  const handleRegister = (): void => {
     setIsLoading(true);
 
-    const promise1 = loginSchema.validate({ email, password });
-    const promise2 = login({ email, password });
+    const promise1 = registerSchema.validate({ name, email, password, rePassword });
+    const promise2 = new Promise((resolve, reject) => {
+      if (password !== rePassword) {
+        reject(new Error('Senha e confirmar senha não são iguais'));
+      }
 
-    Promise.all([promise1, promise2])
-      .then((values) => console.log(values))
+      resolve(true);
+    });
+    const promise3 = UsersService.create({ name, password, email });
+
+    Promise.all([promise1, promise2, promise3])
+      .then(() => {
+        navigate('/login');
+      })
       .catch((error) => {
         const apiError = error?.response?.data;
 
-        if (apiError?.message === 'User not found!') {
-          toastMsg(ToastType.Error, 'Usuário ou senha incorretos!');
+        if (apiError?.message === 'Email alredy exist!') {
+          toastMsg(ToastType.Error, 'Esse e-mail já está sendo usado');
         } else {
           toastMsg(ToastType.Error, error.message);
         }
@@ -48,8 +60,8 @@ const Home: React.FunctionComponent = () => {
     <Box sx={{ height: '100%', display: 'flex' }}>
       <Box
         sx={{
-          height: 350,
-          width: 550,
+          height: 500,
+          width: 400,
           backgroundColor: '#390B70',
           margin: 'auto',
           borderRadius: '1rem',
@@ -62,7 +74,18 @@ const Home: React.FunctionComponent = () => {
           <GiConcentrationOrb color="#7F19FC" size={36} />
           <span className="icon_title">Purplose</span>
         </div>
-        <div className="login_form">
+        <div className="register_form">
+          <label htmlFor="name">
+            <span className="label">Nome de usuário</span>
+            <input
+              id="name"
+              type="text"
+              max={120}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Digite seu Nome"
+            />
+          </label>
           <label htmlFor="email">
             <span className="label">E-mail</span>
             <input
@@ -73,7 +96,6 @@ const Home: React.FunctionComponent = () => {
               placeholder="Digite seu e-mail"
             />
           </label>
-
           <label htmlFor="senha">
             <span className="label">Senha</span>
             <input
@@ -84,9 +106,24 @@ const Home: React.FunctionComponent = () => {
               placeholder="Digite sua senha"
             />
           </label>
+          <label htmlFor="resenha">
+            <span className="label">Confirmar a senha</span>
+            <input
+              id="resenha"
+              type="password"
+              value={rePassword}
+              onChange={(event) => setRePassword(event.target.value)}
+              placeholder="Digite sua senha novamente"
+            />
+          </label>
         </div>
-        <button disabled={isLoading || !email || !password} className="submit_btn" type="button" onClick={handleLogin}>
-          Entrar
+        <button
+          disabled={isLoading || isDisableSubmitBtn}
+          className="submit_btn"
+          type="button"
+          onClick={handleRegister}
+        >
+          Registrar-me
         </button>
       </Box>
     </Box>

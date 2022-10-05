@@ -1,12 +1,14 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { useAuth } from '../../contexts/AuthContext';
 import { useToggleMenu } from '../../contexts/ToggleMenuContext';
 import Text from '../Text';
 import './styles.scss';
 
 const Header: React.FunctionComponent = () => {
   const { updateToggleMenu } = useToggleMenu();
+  const { logout } = useAuth();
 
   return (
     <header className="shadow-sm">
@@ -28,6 +30,9 @@ const Header: React.FunctionComponent = () => {
                     />
                   </div>
                   <div className="nav__title">
+                    <button type="button" onClick={() => logout()}>
+                      Sair
+                    </button>
                     <Text as="h2" ariaLabel="Portal administrador">
                       Portal administrador
                     </Text>

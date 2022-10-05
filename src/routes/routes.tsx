@@ -5,6 +5,7 @@ import PrivateRoute from '../components/PrivateRoute';
 
 const Error = lazy(() => import('../pages/Error'));
 const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
 const Home = lazy(() => import('../pages/Home'));
 
 export const Routes = (): React.ReactElement | null => {
@@ -12,6 +13,10 @@ export const Routes = (): React.ReactElement | null => {
     {
       path: '/login',
       element: <Login />,
+    },
+    {
+      path: '/register',
+      element: <Register />,
     },
     {
       path: '/',

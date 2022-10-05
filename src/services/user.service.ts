@@ -12,8 +12,9 @@ export default class UsersService {
     return data;
   }
 
-  static async create(input: { name: string; password: string; email: string }): Promise<void> {
-    const { data } = await HttpClient.api.post('/users', input);
+  static async create(input: { name: string; password: string; email: string }): Promise<string> {
+    const { data } = await HttpClient.api.post('/user', input);
+
     return data;
   }
 }
