@@ -7,4 +7,10 @@ export default class PostService {
 
     return data;
   }
+
+  static async getByUser(): Promise<IPost[]> {
+    const { data } = await HttpClient.api.get('/post/user');
+
+    return data;
+  }
 }

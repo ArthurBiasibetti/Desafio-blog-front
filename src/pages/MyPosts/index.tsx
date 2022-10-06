@@ -6,14 +6,16 @@ import PostService from '../../services/post.service';
 import toastMsg, { ToastType } from '../../utils/toastMsg';
 import Post from '../../components/Post';
 import Loader from '../../components/Loader';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Home: React.FunctionComponent = () => {
   const [posts, setPosts] = useState<IPost[]>([] as IPost[]);
   const [isLoading, setIsLoading] = useState(false);
+  const { loggedUser } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
-    const promise1 = PostService.getAll();
+    const promise1 = PostService.getByUser();
 
     Promise.all([promise1])
       .then((values) => {
@@ -23,7 +25,7 @@ const Home: React.FunctionComponent = () => {
         toastMsg(ToastType.Error, error.message);
       })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [loggedUser]);
 
   console.log(posts);
 

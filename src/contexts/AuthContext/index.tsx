@@ -58,6 +58,7 @@ export const AuthProvider: React.FC<IAuthProvider> = ({ children }): React.React
     setIsAuthenticated(false);
     setLoggedUser({} as IUser);
     HttpClient.api.defaults.headers.common.Authorization = '';
+    navigate('/login');
   };
 
   const value = {
